@@ -9,8 +9,29 @@ import {
   InputAdornment,
   Box,
   Typography,
+  Tooltip,
+  IconButton,
 } from '@mui/material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useAppContext } from '../../context/AppContext';
+
+/**
+ * Custom label component with tooltip
+ */
+const LabelWithTooltip = ({ label, helperText }) => {
+  if (!helperText) return label;
+  
+  return (
+    <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
+      {label}
+      <Tooltip title={helperText} placement="top">
+        <IconButton size="small" sx={{ padding: '2px', ml: 0.5 }}>
+          <HelpOutlineIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+    </Box>
+  );
+};
 
 /**
  * Currency input field with dollar sign
@@ -21,7 +42,6 @@ export const DollarInput = ({
   min = 0, 
   max = 1e8, 
   step = 10,
-
   helperText = null 
 }) => {
   const { updateField } = useAppContext();
@@ -38,7 +58,7 @@ export const DollarInput = ({
   
   return (
     <TextField
-      label={label}
+      label={<LabelWithTooltip label={label} helperText={helperText} />}
       type="number"
       value={contextValue}
       onChange={handleChange}
@@ -51,7 +71,6 @@ export const DollarInput = ({
       InputProps={{
         startAdornment: <InputAdornment position="start">$</InputAdornment>,
       }}
-      helperText={helperText}
       margin="normal"
     />
   );
@@ -82,7 +101,7 @@ export const PercentInput = ({
   
   return (
     <TextField
-      label={label}
+      label={<LabelWithTooltip label={label} helperText={helperText} />}
       type="number"
       value={contextValue}
       onChange={handleChange}
@@ -95,7 +114,6 @@ export const PercentInput = ({
       InputProps={{
         endAdornment: <InputAdornment position="end">%</InputAdornment>,
       }}
-      helperText={helperText}
       margin="normal"
     />
   );
@@ -119,7 +137,7 @@ export const SelectInput = ({
   
   return (
     <FormControl fullWidth margin="normal">
-      <InputLabel>{label}</InputLabel>
+      <InputLabel>{<LabelWithTooltip label={label} helperText={helperText} />}</InputLabel>
       <Select
         value={contextValue}
         onChange={handleChange}
@@ -131,7 +149,6 @@ export const SelectInput = ({
           </MenuItem>
         ))}
       </Select>
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 };
@@ -142,9 +159,6 @@ export const SelectInput = ({
 export const InputSection = ({ title, description, children }) => {
   return (
     <Box sx={{ mb: 4 }}>
-      <Typography variant="h6" gutterBottom>
-        {title}
-      </Typography>
       {description && (
         <Typography variant="body2" color="text.secondary" paragraph>
           {description}

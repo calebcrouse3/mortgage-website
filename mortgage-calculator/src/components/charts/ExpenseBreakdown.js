@@ -111,33 +111,13 @@ const ExpenseBreakdown = ({ yearlyData }) => {
         Monthly Expense Breakdown
       </Typography>
       
-      <Plot
-        data={data}
-        layout={layout}
-        config={{ displayModeBar: false, responsive: true }}
-        style={{ width: '100%', height: '100%' }}
-      />
-      
-      <Box sx={{ mt: 2 }}>
-        <Typography variant="subtitle2" color="primary" gutterBottom>
-          Monthly Expense Details
-        </Typography>
-        <Box sx={{ 
-          display: 'grid', 
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
-          gap: 2 
-        }}>
-          {expenseData.map((item, index) => (
-            <Box key={index} sx={{ 
-              p: 1, 
-              borderLeft: `4px solid ${expenseColors[index]}`,
-              backgroundColor: 'rgba(0,0,0,0.03)'
-            }}>
-              <Typography variant="body2">{item.name}</Typography>
-              <Typography variant="subtitle1">{item.formatted}</Typography>
-            </Box>
-          ))}
-        </Box>
+      <Box>
+        <Plot
+          data={data}
+          layout={layout}
+          config={{ displayModeBar: false, responsive: true }}
+          style={{ width: '100%', height: '100%' }}
+        />
       </Box>
     </Paper>
   );

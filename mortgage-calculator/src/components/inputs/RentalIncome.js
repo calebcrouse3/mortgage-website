@@ -10,14 +10,14 @@ const RentalIncome = () => {
     <InputSection title="Rental Income">
       <InputGrid>
         <DollarInput
-          label="Monthly Rental Income"
+          label="Mo. Rental Income"
           field="moRentIncome"
           min={0}
           max={100000}
           step={50}
         />
         <DollarInput
-          label="Monthly Misc Income"
+          label="Mo. Misc Income"
           field="moOtherIncome"
           min={0}
           max={10000}

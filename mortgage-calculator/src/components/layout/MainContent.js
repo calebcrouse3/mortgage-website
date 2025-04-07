@@ -24,11 +24,6 @@ const MainContent = ({ simulationData, loading }) => {
           investment properties, and financial planning.
         </Typography>
         
-        <Typography variant="body1" paragraph>
-          Use the inputs in the sidebar to enter your mortgage details, property expenses, income potential, and economic assumptions. 
-          Click "Calculate" to generate visualizations and analyses based on your inputs.
-        </Typography>
-        
         <Alert severity="info" sx={{ mt: 2 }}>
           Start by filling out the Mortgage section with your home price and down payment. Click "Calculate" to see the results.
         </Alert>

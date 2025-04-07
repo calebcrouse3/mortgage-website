@@ -66,7 +66,7 @@ function App() {
         }}>
           {/* Sidebar */}
           <Box sx={{ 
-            width: { xs: '100%', md: '320px' },
+            width: { xs: '100%', md: '380px' },
             height: { xs: 'auto', md: '100%' },
             flexShrink: 0,
             overflow: 'hidden',

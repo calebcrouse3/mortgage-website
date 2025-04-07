@@ -28,7 +28,7 @@ const ExpenseInputs = () => {
       
       <InputGrid>
         <DollarInput
-          label="Monthly HOA Fees"
+          label="Monthly HOA"
           field="moHoaFees"
           min={0}
           max={10000}

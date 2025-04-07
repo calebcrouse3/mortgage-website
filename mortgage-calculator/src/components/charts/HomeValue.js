@@ -2,6 +2,7 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 import { Box, Paper, Typography } from '@mui/material';
 import { formatCurrency } from '../../models/Finance';
+import MetricBox from './MetricBox';
 
 // Constants for chart styling
 const BLUE = "#1f77b4";
@@ -102,38 +103,6 @@ const HomeValue = ({ yearlyData, xlim, chartMode }) => {
     },
   };
 
-  // For the equity percentage chart
-  const equityPercentageTrace = {
-    x: years,
-    y: equityPercentages,
-    name: 'Equity %',
-    type: 'scatter',
-    mode: mode,
-    line: { width: lineWidth, color: PLOT_COLORS[3] },
-    marker: { size: markerSize, color: PLOT_COLORS[3] },
-    hovertemplate: '%{y:.1f}%<extra>Equity %</extra>',
-  };
-
-  const percentageLayout = {
-    title: 'Equity Percentage Over Time',
-    xaxis: {
-      title: 'Year',
-      range: [0, xlim + 1],
-    },
-    yaxis: {
-      title: 'Equity (%)',
-      tickformat: '.0%',
-      tickvals: [0, 20, 40, 60, 80, 100],
-      ticktext: ['0%', '20%', '40%', '60%', '80%', '100%'],
-      range: [0, 100],
-    },
-    hovermode: 'x',
-    height: 300,
-    width: "100%",
-    autosize: true,
-    margin: { l: 60, r: 30, t: 50, b: 50 },
-  };
-
   // Get values for the most recent year (for summary)
   const latestData = yearlyData[Math.min(xlim - 1, yearlyData.length - 1)];
   const initialHomeValue = yearlyData[0].homeValue;
@@ -150,50 +119,38 @@ const HomeValue = ({ yearlyData, xlim, chartMode }) => {
         Home Value Projection
       </Typography>
       
-      <Plot
-        data={traces}
-        layout={valueLayout}
-        config={{ displayModeBar: false, responsive: true }}
-        style={{ width: '100%', height: '100%' }}
-      />
-      
-      <Plot
-        data={[equityPercentageTrace]}
-        layout={percentageLayout}
-        config={{ displayModeBar: false, responsive: true }}
-        style={{ width: '100%', height: '100%' }}
-      />
-      
-      <Box sx={{ mt: 2 }}>
-        <Typography variant="subtitle2" color="primary" gutterBottom>
-          Projected Values at Year {Math.min(xlim, yearlyData.length)}
-        </Typography>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
+        <Box sx={{ flex: 1 }}>
+          <Plot
+            data={traces}
+            layout={valueLayout}
+            config={{ displayModeBar: false, responsive: true }}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </Box>
         
-        <Box sx={{ 
-          display: 'grid', 
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
-          gap: 2 
-        }}>
-          <Box sx={{ p: 1, backgroundColor: 'rgba(0,0,0,0.03)' }}>
-            <Typography variant="body2">Home Value</Typography>
-            <Typography variant="subtitle1">{formatCurrency(latestHomeValue)}</Typography>
-            <Typography variant="caption" color="success.main">
-              +{formatCurrency(valueGrowth)} (+{valueGrowthPercentage.toFixed(1)}%)
-            </Typography>
-          </Box>
+        <Box sx={{ width: { xs: '100%', md: '250px' }, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="subtitle2" color="primary" gutterBottom>
+            Projected Values at Year {Math.min(xlim, yearlyData.length)}
+          </Typography>
           
-          <Box sx={{ p: 1, backgroundColor: 'rgba(0,0,0,0.03)' }}>
-            <Typography variant="body2">Loan Balance</Typography>
-            <Typography variant="subtitle1">{formatCurrency(latestLoanBalance)}</Typography>
-          </Box>
+          <MetricBox 
+            label="Home Value" 
+            value={formatCurrency(latestHomeValue)}
+            subtext={`+${formatCurrency(valueGrowth)} (+${valueGrowthPercentage.toFixed(1)}%)`}
+            subtextColor="success.main"
+          />
           
-          <Box sx={{ p: 1, backgroundColor: 'rgba(0,0,0,0.03)' }}>
-            <Typography variant="body2">Equity</Typography>
-            <Typography variant="subtitle1">{formatCurrency(latestEquity)}</Typography>
-            <Typography variant="caption" color="primary">
-              {latestEquityPercentage.toFixed(1)}% of home value
-            </Typography>
-          </Box>
+          <MetricBox 
+            label="Loan Balance" 
+            value={formatCurrency(latestLoanBalance)}
+          />
+          
+          <MetricBox 
+            label="Equity" 
+            value={formatCurrency(latestEquity)}
+            subtext={`${latestEquityPercentage.toFixed(1)}% of home value`}
+          />
         </Box>
       </Box>
     </Paper>

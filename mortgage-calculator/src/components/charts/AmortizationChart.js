@@ -2,6 +2,7 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 import { Box, Paper, Typography } from '@mui/material';
 import { formatCurrency } from '../../models/Finance';
+import MetricBox from './MetricBox';
 
 // Constants for chart styling
 const BLUE = "#1f77b4";
@@ -106,37 +107,29 @@ const AmortizationChart = ({ yearlyData, xlim, chartMode }) => {
         Loan Amortization
       </Typography>
       
-      <Plot
-        data={traces}
-        layout={layout}
-        config={{ displayModeBar: false, responsive: true }}
-        style={{ width: '100%', height: '100%' }}
-      />
-      
-      <Box sx={{ mt: 2, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
-        <Box>
-          <Typography variant="subtitle2" color="primary">
-            Total Principal
-          </Typography>
-          <Typography variant="h6">
-            {formatCurrency(totalPrincipal)}
-          </Typography>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
+        <Box sx={{ flex: 1 }}>
+          <Plot
+            data={traces}
+            layout={layout}
+            config={{ displayModeBar: false, responsive: true }}
+            style={{ width: '100%', height: '100%' }}
+          />
         </Box>
-        <Box>
-          <Typography variant="subtitle2" color="primary">
-            Total Interest
-          </Typography>
-          <Typography variant="h6">
-            {formatCurrency(totalInterest)}
-          </Typography>
-        </Box>
-        <Box>
-          <Typography variant="subtitle2" color="primary">
-            Total Payments
-          </Typography>
-          <Typography variant="h6">
-            {formatCurrency(totalPayment)}
-          </Typography>
+        
+        <Box sx={{ width: { xs: '100%', md: '250px' }, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <MetricBox 
+            label="Total Principal" 
+            value={formatCurrency(totalPrincipal)} 
+          />
+          <MetricBox 
+            label="Total Interest" 
+            value={formatCurrency(totalInterest)} 
+          />
+          <MetricBox 
+            label="Total Payments" 
+            value={formatCurrency(totalPayment)} 
+          />
         </Box>
       </Box>
     </Paper>

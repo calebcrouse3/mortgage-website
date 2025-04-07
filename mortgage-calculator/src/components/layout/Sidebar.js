@@ -34,7 +34,7 @@ const Sidebar = ({ onCalculate }) => {
       }}
     >
       <Typography variant="h5" component="h2" gutterBottom>
-        Mortgage Calculator Inputs
+        Inputs
       </Typography>
       
       <Divider />
